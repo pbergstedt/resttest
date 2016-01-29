@@ -1,0 +1,7 @@
+---
+applications:
+- name: weather-pjb
+  memory: 128M
+  host: weather-pjb
+  instances: 1
+  buildpack: php_buildpack
