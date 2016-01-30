@@ -10,13 +10,13 @@
           <font size="3" face='calibri' color="blue">
           <img src=hk_logo.png height="70px" style="display:inline;margin:1px 1px 1px 65px;">
           <hr noshade size=2 width=240 align=left>
-          <h2>PCF Training Application</h2>
+          <h2>HK Weather Application</h2>
           <hr noshade size=2 width=240 align=left>
-          <h2>Select City for current weather:</h2>
+          <h2>Select city for weather:</h2>
 
         <?php
         $submittedValue = "";
-        $value0 = "";
+        $value0 = "Select";
         $value1 = "Dayton";
         $value2 = "Middletown";
         $value3 = "Lebonan";
@@ -44,54 +44,62 @@
         <?php
         $city = $submittedValue;
         $zipc = "";
-        if ($city == $value1) { $zipc = "45002"; }
-        if ($city == $value2) { $zipc = "45044"; }
+        if ($city == $value1) { $zipc = "45402"; }
+        if ($city == $value2) { $zipc = "45042"; }
         if ($city == $value3) { $zipc = "45036"; }
-        if ($city == $value4) { $zipc = "45242"; }
+        if ($city == $value4) { $zipc = "45241"; }
         if ($city == $value5) { $zipc = "45202"; }
-        if ($city == $value6) { $zipc = "29906"; }
-        if ($city == $value7) { $zipc = "89111"; }
-        echo "<h3>Weather conditions for $submittedValue ($zipc)</h3>";
+        if ($city == $value6) { $zipc = "29901"; }
+        if ($city == $value7) { $zipc = "89101"; }
+        echo "<br><hr noshade size=2 width=240 align=left>";
+        echo "<h3>Conditions for $submittedValue ($zipc)</h3>";
         echo "<h4>";
         // http://api.openweathermap.org/data/2.5/weather?zip=45005,us&appid=2de143494c0b295cca9337e1e96b00e0
-        $api_key = "44db6a862fba0b067b1930da0d769e98";
-        $BASE_URL = "http://api.openweathermap.org/data/2.5/";
-        $yql_query = "weather?zip=$zipc,us&appid=$api_key";
+        # $api_key = "44db6a862fba0b067b1930da0d769e98";
+        # $BASE_URL = "http://api.openweathermap.org/data/2.5/";
+        # $yql_query = "weather?zip=$zipc,us&appid=$api_key";
+        // http://api.poweredwire.com/index.php/api/?method=weather&zipcode=45042&format=json
+
+        // $BASE_URL = "http://api.poweredwire.com/";
+        $BASE_URL = "http://54.191.209.146/";
+        $yql_query = "?method=weather&zipcode=$zipc&format=json";
         $yql_query_url = $BASE_URL . $yql_query;
         // echo "The base url is:<br> $yql_query_url";
         $session = curl_init($yql_query_url);
         curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
         $json = curl_exec($session);
         curl_close($session);
-        // echo "<br><br>The raw json out is:$json";
+        // echo "<br><br>The url was: $yql_query_url";
+        // echo "<br><br>The raw json out is: $json";
         // decode the json
         $tbj = json_decode($json, true);
+        // Get update time
+        $updated = $tbj["updated"];
         // Get tempature
-        $kt = $tbj["main"]["temp"];
+        $kt = $tbj["tempature"];
         // Get Condition
-        $weather = $tbj["weather"];
-        // print_r($weather);
-        $condition = $weather["0"]["description"];
-        // print_r($condition);
+        $condition = $tbj["condition"];
         // Get Humidity
-        $humidity = $tbj["main"]["humidity"];
+        $humidity = $tbj["humidity"];
         // Get Wind Speed
-        $wspeed = $tbj["wind"]["speed"];
+        $wspeed = $tbj["windspeed"];
         // Get Sunrise and set
-        $sunr = $tbj["sys"]["sunrise"];
-        $suns = $tbj["sys"]["sunset"];
+        $sunr = $tbj["sunrise"];
+        $suns = $tbj["sunset"];
         // convert sun times to est
         date_default_timezone_set('us/eastern');
         $sunrise = date('h:i A (T)', $sunr);
         $sunset = date('h:i A (T)', $suns);
-
+        $ut = date('h:i A (T)', $updated);
+        // convert temp from Kelvin to Fahrenheit
         $kc = $kt - 273.15;
         $km = 1.8;
         $wf = 32;
         $tf = ($kc * $km) + $wf;
         $tf = round($tf, 1);
-        // echo "<br><br>The out put for temp in Kelvin is:$kt K";
-        echo "Tempature: $tf °F";
+        // display results formatted in html
+        echo "Updated at: $ut";
+        echo "<br><br>Tempature: $tf °F";
         echo "<br><br>Condition: $condition";
         echo "<br><br>Humidity: $humidity %";
         echo "<br><br>Wind speed: $wspeed mph";
@@ -100,4 +108,10 @@
         echo "</h4>";
         ?>
         <hr noshade size=2 width=240 align=left>
+      </font>
+      <font size="2" face='arial' color="black">
+        <br>Test application for RESTful service<br>
+        Data source: api.poweredwire.com<br>
+        Powered by PCF and AWS EC2
+      </font>
 </HTML>

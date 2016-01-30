@@ -2,12 +2,11 @@
 /*
 	This script provides a RESTful API interface for a weather application
 	Input:
-
-		$_GET['format'] = [ json | html | xml ]
-	  $_GET['zipcode'] = []
-    $_GET['method'] = []
-
-	Output: A formatted HTTP response
+    $_GET['format'] = [ json | html | xml ]
+    $_GET['zipcode'] = []
+    $_GET['method'] = weather
+	Output:
+    A formatted HTTP response
 */
 
 // --- Step 1: Initialize variables and functions
@@ -85,6 +84,11 @@ function deliver_response($format, $api_response){
     echo "Windspeed: {$api_response['windspeed']} <br>";
     echo "Sunrise: {$api_response['sunrise']} <br>";
     echo "Sunset: {$api_response['sunset']}</h3>";
+		if ($zip ==0) {
+      echo "<br><br>";
+			echo "Correct usage is:<br>";
+			echo "/?method=weather&zipcode=xxxxx&format=json";
+    }
 	}
 
 	// End script process
@@ -96,10 +100,9 @@ function deliver_response($format, $api_response){
 // get conditions based on zipcode
 $zip = htmlspecialchars($_GET["zipcode"]);
 // open database
-$user = getenv('DB_USER');
-$pwd = getenv('DB_PWD');
-
-$conn = mysqli_connect("127.0.0.1", $user, $pwd, "weather");
+// $user = getenv('DB_USER');
+// $pwd = getenv('DB_PWD');
+$conn = mysqli_connect("127.0.0.1", 'root', '', "weather");
 $row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM conditions WHERE zipcode = $zip"));
 mysqli_close($conn);
 // format Output
