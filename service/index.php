@@ -57,7 +57,7 @@ function deliver_response($format, $api_response){
       "\t".'<zipcode>'.$api_response['zipcode'].'</zipcode>'."\n".
       "\t".'<updated>'.$api_response['updated'].'</updated>'."\n".
       "\t".'<tempature>'.$api_response['tempature'].'</tempature>'."\n".
-      "\t".'<condition>'.$api_responsee['condition'].'</condition>'."\n".
+      "\t".'<condition>'.$api_response['condition'].'</condition>'."\n".
       "\t".'<humidity>'.$api_response['humidity'].'</humidity>'."\n".
       "\t".'<windspeed>'.$api_response['windspeed'].'</windspeed>'."\n".
       "\t".'<sunrise>'.$api_response['sunrise'].'</sunrise>'."\n".
@@ -79,7 +79,7 @@ function deliver_response($format, $api_response){
     echo "Zipcode: {$api_response['zipcode']} <br>";
     echo "Updated: {$api_response['updated']} <br>";
     echo "Tempature: {$api_response['tempature']} <br>";
-    echo "Condition: {$api_responsee['condition']} <br>";
+    echo "Condition: {$api_response['condition']} <br>";
     echo "Humidity: {$api_response['humidity']} <br>";
     echo "Windspeed: {$api_response['windspeed']} <br>";
     echo "Sunrise: {$api_response['sunrise']} <br>";
@@ -87,7 +87,8 @@ function deliver_response($format, $api_response){
 		if ($zip ==0) {
       echo "<br><br>";
 			echo "Correct usage is:<br>";
-			echo "/?method=weather&zipcode=xxxxx&format=json";
+			echo "/?method=weather&zipcode=xxxxx&format=json [xml] [html]<br>";
+      echo "Valid zipcodes are: 45402, 45042, 45036, 45241, 45202, 29901, 89101";
     }
 	}
 
