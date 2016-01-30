@@ -84,19 +84,16 @@ function deliver_response($format, $api_response){
     echo "Windspeed: {$api_response['windspeed']} <br>";
     echo "Sunrise: {$api_response['sunrise']} <br>";
     echo "Sunset: {$api_response['sunset']}</h3>";
-		if ($zip ==0) {
+    if (empty($zip)) {
       echo "<br><br>";
-			echo "Correct usage is:<br>";
-			echo "/?method=weather&zipcode=xxxxx&format=json [xml] [html]<br>";
+      echo "Correct usage is:<br>";
+      echo "/?method=weather&zipcode=xxxxx&format=json [xml] [html]<br>";
       echo "Valid zipcodes are: 45402, 45042, 45036, 45241, 45202, 29901, 89101";
     }
 	}
-
 	// End script process
 	exit;
-
 }
-
 // --- Step 3: Process Request
 // get conditions based on zipcode
 $zip = htmlspecialchars($_GET["zipcode"]);
@@ -121,7 +118,6 @@ if( strcasecmp($_GET['method'], "weather") == 0){
   $response['sunrise'] = $row['sunrise'];
   $response['sunset'] = $row['sunset'];
 }
-
 // --- Step 4: Deliver Response
 // Return Response to browser
 deliver_response($_GET['format'], $response);
