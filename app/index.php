@@ -61,7 +61,7 @@
         // http://api.poweredwire.com/index.php/api/?method=weather&zipcode=45042&format=json
 
         // $BASE_URL = "http://api.poweredwire.com/";
-        $BASE_URL = "http://54.191.209.146/";
+        $BASE_URL = "http://poweredwire.com/";
         $yql_query = "?method=weather&zipcode=$zipc&format=json";
         $yql_query_url = $BASE_URL . $yql_query;
         // echo "The base url is:<br> $yql_query_url";
@@ -90,13 +90,14 @@
         date_default_timezone_set('us/eastern');
         $sunrise = date('h:i A (T)', $sunr);
         $sunset = date('h:i A (T)', $suns);
-        $ut = date('h:i A (T)', $updated);
+        $ut = date('M jS \a\t h:i A (T)', $updated);
         // convert temp from Kelvin to Fahrenheit
         $kc = $kt - 273.15;
         $km = 1.8;
         $wf = 32;
         $tf = ($kc * $km) + $wf;
         $tf = round($tf, 1);
+        if ($tf < -400 ) {$tf = "";}
         // display results formatted in html
         echo "Updated at: $ut";
         echo "<br><br>Tempature: $tf °F";
