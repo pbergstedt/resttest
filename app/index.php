@@ -6,13 +6,13 @@
         <title>Hello Clarice</title>
         <link rel="shortcut icon" type="image/x-icon" href="hk_icon.png" />
     </head>
-    <body>
-          <font size="3" face='calibri' color="blue">
-          <img src=hk_logo.png height="70px" style="display:inline;margin:1px 1px 1px 65px;">
-          <hr noshade size=2 width=240 align=left>
-          <h2>HK Weather Application</h2>
-          <hr noshade size=2 width=240 align=left>
-          <h2>Select city for weather:</h2>
+      <body>
+        <font size="3" face='calibri' color="blue">
+        <img src=hk_logo.png height="70px" style="display:inline;margin:1px 1px 1px 65px;">
+        <hr noshade size=2 width=240 align=left>
+        <h2>HK Weather Application</h2>
+        <hr noshade size=2 width=240 align=left>
+        <h2>Select city for weather:</h2>
 
         <?php
         $submittedValue = "";
@@ -30,17 +30,18 @@
         ?>
         <form action="" name="fruits" method="post">
         <select project="FruitList" id="FruitList" name="FruitList">
-         <option value = "<?php echo $value0; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value0; ?></option>
-         <option value = "<?php echo $value1; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value1; ?></option>
-         <option value = "<?php echo $value2; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value2; ?></option>
-         <option value = "<?php echo $value3; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value3; ?></option>
-         <option value = "<?php echo $value4; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value4; ?></option>
-         <option value = "<?php echo $value5; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value5; ?></option>
-         <option value = "<?php echo $value6; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value6; ?></option>
-         <option value = "<?php echo $value7; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value7; ?></option>
+          <option value = "<?php echo $value0; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value0; ?></option>
+          <option value = "<?php echo $value1; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value1; ?></option>
+          <option value = "<?php echo $value2; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value2; ?></option>
+          <option value = "<?php echo $value3; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value3; ?></option>
+          <option value = "<?php echo $value4; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value4; ?></option>
+          <option value = "<?php echo $value5; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value5; ?></option>
+          <option value = "<?php echo $value6; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value6; ?></option>
+          <option value = "<?php echo $value7; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value7; ?></option>
         </select>
         <input type="submit" name="submit" id="submit" value="Submit" />
         </form>
+
         <?php
         $city = $submittedValue;
         $zipc = "";
@@ -54,23 +55,16 @@
         echo "<br><hr noshade size=2 width=240 align=left>";
         echo "<h3>Conditions for $submittedValue ($zipc)</h3>";
         echo "<h4>";
-        // http://api.openweathermap.org/data/2.5/weather?zip=45005,us&appid=2de143494c0b295cca9337e1e96b00e0
-        # $api_key = "44db6a862fba0b067b1930da0d769e98";
-        # $BASE_URL = "http://api.openweathermap.org/data/2.5/";
-        # $yql_query = "weather?zip=$zipc,us&appid=$api_key";
-        // http://api.poweredwire.com/index.php/api/?method=weather&zipcode=45042&format=json
 
-        // $BASE_URL = "http://api.poweredwire.com/";
+        // create base url variable
         $BASE_URL = "http://poweredwire.com/";
         $yql_query = "?method=weather&zipcode=$zipc&format=json";
         $yql_query_url = $BASE_URL . $yql_query;
-        // echo "The base url is:<br> $yql_query_url";
+        // pull data from RESTful api using curl
         $session = curl_init($yql_query_url);
         curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
         $json = curl_exec($session);
         curl_close($session);
-        // echo "<br><br>The url was: $yql_query_url";
-        // echo "<br><br>The raw json out is: $json";
         // decode the json
         $tbj = json_decode($json, true);
         // Get update time
@@ -99,7 +93,7 @@
         $tf = round($tf, 1);
         if ($tf < -400 ) {$tf = "";}
         // display results formatted in html
-        echo "Updated at: $ut";
+        echo "Updated: $ut";
         echo "<br><br>Tempature: $tf °F";
         echo "<br><br>Condition: $condition";
         echo "<br><br>Humidity: $humidity %";
@@ -109,10 +103,11 @@
         echo "</h4>";
         ?>
         <hr noshade size=2 width=240 align=left>
-      </font>
-      <font size="2" face='arial' color="black">
+        </font>
+        <font size="2" face='arial' color="black">
         <br>Test application for RESTful service<br>
         Data source: api.poweredwire.com<br>
         Powered by PCF and AWS EC2
-      </font>
+        </font>
+      </body>
 </HTML>
