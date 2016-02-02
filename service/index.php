@@ -5,6 +5,7 @@
     $_GET['format'] = [ json | html | xml ]
     $_GET['zipcode'] = []
     $_GET['method'] = weather
+		example: api.poweredwire.com/?method=weather&zipcode=xxxxx&format=json
 	Output:
     A formatted HTTP response
 */
