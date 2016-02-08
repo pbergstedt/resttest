@@ -57,7 +57,7 @@
         echo "<h4>";
 
         // create base url variable
-        $BASE_URL = "http://poweredwire.com/";
+        $BASE_URL = "http://api.poweredwire.com/";
         $yql_query = "?method=weather&zipcode=$zipc&format=json";
         $yql_query_url = $BASE_URL . $yql_query;
         // pull data from RESTful api using curl
