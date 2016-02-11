@@ -1,0 +1,7 @@
+---
+applications:
+- name: weather-go
+  memory: 128M
+  host: weather-go
+  instances: 1
+  buildpack: php_buildpack
