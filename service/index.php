@@ -5,7 +5,7 @@
     $_GET['format'] = [ json | html | xml ]
     $_GET['zipcode'] = []
     $_GET['method'] = weather
-		example: api.poweredwire.com/?method=weather&zipcode=xxxxx&format=json
+		example: api.poweredwire/?method=weather&zipcode=xxxxx&format=json [xml] [html]
 	Output:
     A formatted HTTP response
 */
@@ -68,8 +68,8 @@ function deliver_response($format, $api_response){
 		// Deliver formatted data
 		echo $xml_response;
 
+  }elseif( strcasecmp($format,'html') == 0 ){
 
-	}else{
 
 		// Set HTTP Response Content Type (This is only good at handling string data, not arrays)
 		header('Content-Type: text/html; charset=utf-8');
@@ -85,11 +85,25 @@ function deliver_response($format, $api_response){
     echo "Windspeed: {$api_response['windspeed']} <br>";
     echo "Sunrise: {$api_response['sunrise']} <br>";
     echo "Sunset: {$api_response['sunset']}</h3>";
-    if (empty($zip)) {
+
+  }elseif( strcasecmp($format,'list') == 0 ){
+		$conn = mysqli_connect("127.0.0.1", 'root', 'beavis', "weather");
+		$result = mysqli_query($conn, "SELECT cityname, zipcode FROM conditions");
+
+		while($row = mysqli_fetch_assoc($result)) {
+		  $data[] = array($row[cityname] => $row[zipcode]);
+		}
+		mysqli_close($conn);
+		header('Content-Type: application/json; charset=utf-8');
+		print json_encode($data);
+
+  }else{
+	  if (empty($zip)) {
       echo "<br><br>";
       echo "Correct usage is:<br>";
       echo "/?method=weather&zipcode=xxxxx&format=json [xml] [html]<br>";
-      echo "Valid zipcodes are: 45402, 45042, 45036, 45241, 45202, 29901, 89101";
+      echo "To get a valid list of Cities and Zipcodes:<br>";
+			echo "/?method=weather&format=list<br>";
     }
 	}
 	// End script process
@@ -97,11 +111,15 @@ function deliver_response($format, $api_response){
 }
 // --- Step 3: Process Request
 // get conditions based on zipcode
+$zip = "";
 $zip = htmlspecialchars($_GET["zipcode"]);
+if (empty($zip)) {
+	$zip = 45402;
+}
 // open database
 // $user = getenv('DB_USER');
 // $pwd = getenv('DB_PWD');
-$conn = mysqli_connect("127.0.0.1", 'root', '', "weather");
+$conn = mysqli_connect("127.0.0.1", 'root', 'beavis', "weather");
 $row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM conditions WHERE zipcode = $zip"));
 mysqli_close($conn);
 // format Output

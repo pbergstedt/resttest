@@ -17,13 +17,14 @@
         <?php
         $submittedValue = "";
         $value0 = "Select";
-        $value1 = "Dayton";
-        $value2 = "Middletown";
-        $value3 = "Lebonan";
-        $value4 = "Blue Ash";
-        $value5 = "Cincinnati";
-        $value6 = "Beaufort";
-        $value7 = "Las Vegas";
+        $value1 = "Dayton, OH";
+        $value2 = "Middletown, OH";
+        $value3 = "Lebonan, OH";
+        $value4 = "Sharonville, OH";
+        $value5 = "Cincinnati, OH";
+        $value6 = "Beaufort, SC";
+        $value7 = "Las Vegas, NV";
+        $value8 = "San Ramon, CA";
         if (isset($_POST["FruitList"])) {
             $submittedValue = $_POST["FruitList"];
         }
@@ -38,6 +39,7 @@
           <option value = "<?php echo $value5; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value5; ?></option>
           <option value = "<?php echo $value6; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value6; ?></option>
           <option value = "<?php echo $value7; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value7; ?></option>
+          <option value = "<?php echo $value8; ?>"<?php echo ($value0 == $submittedValue)?" SELECTED":""?>><?php echo $value8; ?></option>
         </select>
         <input type="submit" name="submit" id="submit" value="Submit" />
         </form>
@@ -52,6 +54,7 @@
         if ($city == $value5) { $zipc = "45202"; }
         if ($city == $value6) { $zipc = "29901"; }
         if ($city == $value7) { $zipc = "89101"; }
+        if ($city == $value8) { $zipc = "94583"; }
         echo "<br><hr noshade size=2 width=240 align=left>";
         echo "<h3>Conditions for $submittedValue ($zipc)</h3>";
         echo "<h4>";

@@ -1,14 +1,17 @@
 <?php
 
-$zip = '45402';
 
-//  || $zip != "45042" || $zip != "45036" || $zip != "45241" || $zip != "45202" || $zip != "29901" || $zip != "89101")
-if (empty($zip))
-{
-  echo "<br><br>";
-  echo "Correct usage is:<br>";
-  echo "/?method=weather&zipcode=xxxxx&format=json [xml] [html]<br>";
-  echo "Valid zipcodes are: 45402, 45042, 45036, 45241, 45202, 29901, 89101";
-}
+$conn = mysqli_connect("127.0.0.1", 'root', 'beavis', "weather");
+// $result = mysqli_query($conn, "SELECT cityname, zipcode FROM conditions");
+$result = mysqli_query($conn, "SELECT cityname FROM conditions");
+// while($row = mysqli_fetch_assoc($result)) {
+//  $data[] = array($row[cityname] => $row[zipcode]);
+//}
+//mysqli_close($conn);
+//header('Content-Type: application/json; charset=utf-8');
+//print json_encode($data);
 
+while ($row = mysqli_fetch_array($result)) {
+   		echo "<option>" . $row{'cityname'} . "</option>";
+	}
 ?>
