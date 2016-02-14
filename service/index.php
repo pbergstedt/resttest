@@ -87,11 +87,11 @@ function deliver_response($format, $api_response){
     echo "Sunset: {$api_response['sunset']}</h3>";
 
   }elseif( strcasecmp($format,'list') == 0 ){
-		$conn = mysqli_connect("127.0.0.1", 'root', 'beavis', "weather");
+		$conn = mysqli_connect("127.0.0.1", 'root', '', "weather");
 		$result = mysqli_query($conn, "SELECT cityname, zipcode FROM conditions");
 
 		while($row = mysqli_fetch_assoc($result)) {
-		  $data[] = array($row[cityname] => $row[zipcode]);
+		  $data[] = array("cityname" => $row[cityname], "zipcode" => $row[zipcode]);
 		}
 		mysqli_close($conn);
 		header('Content-Type: application/json; charset=utf-8');
@@ -119,7 +119,7 @@ if (empty($zip)) {
 // open database
 // $user = getenv('DB_USER');
 // $pwd = getenv('DB_PWD');
-$conn = mysqli_connect("127.0.0.1", 'root', 'beavis', "weather");
+$conn = mysqli_connect("127.0.0.1", 'root', '', "weather");
 $row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM conditions WHERE zipcode = $zip"));
 mysqli_close($conn);
 // format Output
