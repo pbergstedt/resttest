@@ -1,35 +1,34 @@
+<body>
+  <font size="3" face='calibri' color="blue">
+  <hr noshade size=2 width=240 align=left>
+  <h2>Select city for weather:</h2>
 
-<?php
-/*
+  <?php
+  $BASE_URL = "http://api.poweredwire.com/";
+  $list_query = "?method=weather&format=list";
+  $list_query_url = $BASE_URL . $list_query;
+  
+  $jsonData = file_get_contents($list_query_url);
+  $jsonArray = json_decode($jsonData);
 
-$conn = mysqli_connect("127.0.0.1", 'root', 'beavis', "weather");
-// $result = mysqli_query($conn, "SELECT cityname, zipcode FROM conditions");
-$result = mysqli_query($conn, "SELECT cityname FROM conditions");
-// while($row = mysqli_fetch_assoc($result)) {
-//  $data[] = array($row[cityname] => $row[zipcode]);
-//}
-//mysqli_close($conn);
-//header('Content-Type: application/json; charset=utf-8');
-//print json_encode($data);
+  ?>
 
-while ($row = mysqli_fetch_array($result)) {
-   		echo "<option>" . $row{'cityname'} . "</option>";
-	}
-?>
+  <form action="" name="city" method="post">
+  <select name="CityZip">
 
-<?php
-*/
-    $url = "http://api.poweredwire.com/?method=weather&format=list";
-    echo '<select>';
+  <?php
+  foreach($jsonArray as $jsonValue) {
+  echo '<option value =' . $jsonValue->zipcode . '>' . $jsonValue->cityname . '</option>'; }
+  ?>
 
-    $jsonData = file_get_contents($url);
-    $jsonDataObject = json_decode($jsonData);
-    $jsonDataObject->response->values as $option;
-    echo $option;
+  </select>
+  <input type="submit" name="submit" value="Select" />
+  </form>
+  <br><hr noshade size=2 width=240 align=left>
 
-    foreach($jsonDataObject->response->values as $option){
-        echo '<option value=' . $option->id . '>' . $option->value . '</option>';
-    }
-
-    echo '</select>';
-?>
+  <?php
+  $submittedValue = isset($_POST["CityZip"]) ? $_POST["CityZip"] : "";
+  echo "<h3>Conditions for zipcode: $submittedValue</h3>";
+  echo "<h4>";
+  ?>
+</body>
