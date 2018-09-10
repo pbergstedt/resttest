@@ -1,0 +1,13 @@
+<font size="2" face='Andale Mono' color="black">
+<p>
+  <table border=0 cellspacing=0 cellpadding=1 width=100%>
+    <tr bgcolor='#d0f0d0'><td> <p id="date"></p> </td></tr>
+    <tr bgcolor='#d0f0d0'><td> <p id="time"></p> </td></tr>
+  </table>
+</p>
+
+<script>
+var d = new Date();
+document.getElementById("date").innerHTML = d.toDateString();
+document.getElementById("time").innerHTML = d.toTimeString();
+</script>

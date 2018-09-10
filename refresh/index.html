@@ -1,0 +1,32 @@
+<html>
+<head>
+<!-- For ease i'm just using a JQuery version hosted by JQuery- you can download any version and link to it locally -->
+<script src="jquery/jquery-latest.js"></script>
+<script>
+ $(document).ready(function() {
+ 	 $("#responsecontainer").load("https://apapcb.av.ge.com/time.html");
+   var refreshId = setInterval(function() {
+      $("#responsecontainer").load('https://apapcb.av.ge.com/time.html');
+   }, 2000);
+   $.ajaxSetup({ cache: false });
+});
+</script>
+</head>
+<body>
+  <h3>Test refresh</h3>
+
+<div id="responsecontainer"></div>
+
+  <footer>
+    <br>This page loaded at:
+    <div class="date" id="date"></div>
+    <div class="time" id="time"></div>
+  </footer>
+</body>
+</html>
+
+<script>
+var d = new Date();
+document.getElementById("date").innerHTML = d.toDateString();
+document.getElementById("time").innerHTML = d.toTimeString();
+</script>
